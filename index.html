@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Xiaoxiao Zhou | 周瀟霄</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Noto+Serif+JP:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1a1a2e;
+      --mist: #f5f3ef;
+      --stone: #4A3737;
+      --gold: #CC6289;
+      --paper: #faf8f4;
+      --line: #ddd8cf;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', 'Noto Serif JP', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── LANG ── */
+    .lang-btn {
+      display: flex; align-items: center; gap: 5px;
+      background: none; border: 1px solid var(--line);
+      border-radius: 20px; padding: 5px 16px; cursor: pointer;
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em;
+      color: var(--stone); transition: all 0.2s; font-family: inherit;
+    }
+    .lang-btn:hover { border-color: var(--gold); color: var(--gold); }
+    body.lang-ja .en { display: none; }
+    body.lang-en .ja { display: none; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(250,248,244,0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem; font-weight: 600; letter-spacing: 0.02em;
+      color: var(--ink); text-decoration: none;
+    }
+    .nav-logo small { color: var(--stone); font-weight: 300; font-size: 0.9em; margin-left: 6px; }
+    .nav-right { display: flex; align-items: center; gap: 28px; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      font-size: 0.75rem; font-weight: 500; letter-spacing: 0.09em;
+      text-transform: uppercase; color: var(--stone);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 110px 48px 70px;
+      background-image: linear-gradient(to right, rgba(250,248,244,0.95) 0%, rgba(250,248,244,0.84) 40%, rgba(250,248,244,0.5) 72%, rgba(250,248,244,0.28) 100%), url('hero.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .hero-text { max-width: 700px; }
+    .hero-eyebrow {
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 18px;
+      opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 5.5vw, 5.8rem);
+      font-weight: 300; line-height: 1.04;
+      color: var(--ink); margin-bottom: 10px;
+      opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
+    }
+    .hero-name em { font-style: italic; color: var(--gold); }
+    .hero-name .kanji { font-size: 0.58em; letter-spacing: 0.06em; font-family: 'Noto Serif JP', serif; }
+    .hero-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem; font-weight: 300; color: var(--stone);
+      margin-bottom: 28px;
+      opacity: 0; animation: fadeUp 0.8s 0.55s forwards;
+    }
+    .hero-desc {
+      font-size: 0.9rem; color: var(--stone); max-width: 580px;
+      line-height: 1.88; margin-bottom: 36px;
+      opacity: 0; animation: fadeUp 0.8s 0.7s forwards;
+    }
+    .hero-links {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.8s 0.85s forwards;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 10px 24px; font-size: 0.74rem; font-weight: 500;
+      letter-spacing: 0.09em; text-transform: uppercase;
+      text-decoration: none; border-radius: 2px; transition: all 0.25s;
+      font-family: inherit;
+    }
+    .btn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.8; flex-shrink: 0; }
+    .btn-primary { background: var(--ink); color: var(--paper); }
+    .btn-primary:hover { background: var(--gold); }
+    .btn-outline { border: 1px solid var(--line); color: var(--stone); }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    .hero-stats {
+      display: flex; margin-top: 52px;
+      border: 1px solid var(--line); width: fit-content;
+      opacity: 0; animation: fadeUp 0.8s 1s forwards;
+    }
+    .stat { padding: 18px 36px; text-align: center; border-right: 1px solid var(--line); }
+    .stat:last-child { border-right: none; }
+    .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 600; color: var(--ink); line-height: 1; }
+    .stat-label { font-size: 0.63rem; color: var(--stone); letter-spacing: 0.06em; margin-top: 4px; text-transform: uppercase; }
+
+    /* ── SECTIONS ── */
+    section { padding: 88px 48px; }
+    section:nth-child(even) { background: var(--mist); }
+    .section-header { display: flex; align-items: baseline; gap: 20px; margin-bottom: 52px; }
+    .section-num { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; color: var(--gold); font-weight: 300; }
+    .section-title { font-family: 'Cormorant Garamond', 'Noto Serif JP', serif; font-size: clamp(1.8rem, 2.5vw, 2.4rem); font-weight: 300; color: var(--ink); }
+    .section-line { flex: 1; height: 1px; background: var(--line); margin-left: 8px; }
+
+    /* ── RESEARCH ── */
+    .research-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2px; background: var(--line); }
+    .research-card {
+      background: var(--paper); padding: 36px 32px;
+      position: relative; overflow: hidden; transition: transform 0.3s;
+    }
+    section:nth-child(even) .research-card { background: var(--mist); }
+    .research-card:hover { transform: translateY(-3px); }
+    .research-card::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--gold); transition: width 0.4s; }
+    .research-card:hover::after { width: 100%; }
+    .research-phase { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+    .research-card h3 { font-family: 'Cormorant Garamond', 'Noto Serif JP', serif; font-size: 1.3rem; font-weight: 600; color: var(--ink); margin-bottom: 12px; line-height: 1.35; }
+    .research-card p { font-size: 0.85rem; color: var(--stone); line-height: 1.82; }
+
+    /* ── PUBLICATIONS ── */
+    .pub-list { display: flex; flex-direction: column; }
+    a.pub-item, div.pub-item {
+      display: grid; grid-template-columns: 62px 1fr auto;
+      gap: 0 28px; align-items: start;
+      padding: 26px 8px; border-bottom: 1px solid var(--line);
+      transition: background 0.2s; border-radius: 2px;
+    }
+    a.pub-item { text-decoration: none; color: inherit; cursor: pointer; }
+    a.pub-item:hover { background: rgba(184,150,62,0.05); }
+    a.pub-item:hover .pub-title { color: var(--gold); }
+    div.pub-item { cursor: default; }
+    .pub-year { font-family: 'Cormorant Garamond', serif; font-size: 0.88rem; color: var(--stone); padding-top: 3px; }
+    .pub-title { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 600; color: var(--ink); margin-bottom: 5px; line-height: 1.4; transition: color 0.2s; }
+    .pub-authors { font-size: 0.8rem; color: var(--stone); }
+    .pub-journal { font-size: 0.78rem; font-style: italic; color: var(--gold); margin-top: 4px; }
+    .pub-trans { font-size: 0.82rem; color: var(--stone); margin: 3px 0 1px; line-height: 1.45; }
+    .pub-trans .t-tag {
+      display: inline-block; font-size: 0.58rem; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold);
+      border: 1px solid var(--line); border-radius: 2px; padding: 0 6px;
+      margin-right: 7px; vertical-align: 1px;
+    }
+    .pub-arrow {
+      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.08em;
+      color: var(--stone); padding: 6px 12px;
+      border: 1px solid var(--line); border-radius: 2px;
+      transition: all 0.2s; white-space: nowrap; margin-top: 3px;
+      text-transform: uppercase; align-self: flex-start;
+    }
+    a.pub-item:hover .pub-arrow { border-color: var(--gold); color: var(--gold); }
+    .pub-badge {
+      display: inline-block; font-size: 0.62rem; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 2px 9px;
+      background: rgba(184,150,62,0.12); color: var(--gold);
+      border-radius: 1px; margin-top: 6px;
+    }
+    .wp-label {
+      font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--stone);
+      margin: 44px 0 0; padding-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    /* ── TIMELINE ── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+    .col-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 28px; }
+    .timeline { position: relative; padding-left: 2px; }
+    .timeline::before { content: ''; position: absolute; left: 1px; top: 8px; bottom: 8px; width: 1px; background: var(--line); }
+    .tl-item { display: grid; grid-template-columns: 110px 1fr; gap: 20px; padding: 0 0 36px 28px; position: relative; }
+    .tl-item::before { content: ''; position: absolute; left: -4px; top: 8px; width: 10px; height: 10px; border-radius: 50%; background: var(--paper); border: 1px solid var(--gold); }
+    section:nth-child(even) .tl-item::before { background: var(--mist); }
+    .tl-date { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; color: var(--gold); padding-top: 1px; line-height: 1.4; }
+    .tl-content h3 { font-size: 0.93rem; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+    .tl-content p { font-size: 0.82rem; color: var(--stone); }
+    .tl-content .courses { font-size: 0.77rem; margin-top: 5px; color: var(--stone); font-style: italic; }
+    .tl-tag { display: inline-block; font-size: 0.63rem; letter-spacing: 0.07em; text-transform: uppercase; padding: 3px 10px; background: var(--gold); color: white; border-radius: 1px; margin-top: 7px; }
+
+    /* ── AWARDS ── */
+    .awards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+    .award-card { padding: 28px 24px; border: 1px solid var(--line); border-radius: 2px; position: relative; }
+    .award-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--gold); border-radius: 2px 0 0 2px; }
+    .award-year { font-size: 0.7rem; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .award-title { font-family: 'Cormorant Garamond', 'Noto Serif JP', serif; font-size: 1.08rem; font-weight: 600; color: var(--ink); margin-bottom: 5px; line-height: 1.35; }
+    .award-org { font-size: 0.8rem; color: var(--stone); }
+
+    /* ── SKILLS ── */
+    .skills-layout { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; }
+    .skill-group h3 { font-family: 'Cormorant Garamond', 'Noto Serif JP', serif; font-size: 1.1rem; font-weight: 600; color: var(--ink); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+    .skill-tag { display: inline-block; font-size: 0.78rem; padding: 5px 13px; margin: 4px 4px 4px 0; border: 1px solid var(--line); border-radius: 20px; color: var(--stone); transition: all 0.2s; cursor: default; }
+    .skill-tag:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--ink); color: var(--mist); }
+    #contact .section-title { color: var(--mist); }
+    #contact .section-num { color: var(--gold); }
+    #contact .section-line { background: rgba(255,255,255,0.1); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+    .contact-intro { font-family: 'Cormorant Garamond', 'Noto Serif JP', serif; font-size: 1.55rem; font-weight: 300; line-height: 1.6; color: rgba(245,243,239,0.82); }
+    .contact-details { display: flex; flex-direction: column; }
+    .contact-row { display: flex; align-items: center; gap: 14px; padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .contact-icon { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .contact-icon svg { width: 15px; height: 15px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+    .contact-label { font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 2px; }
+    .contact-value { font-size: 0.88rem; color: rgba(245,243,239,0.72); }
+    .contact-value a { color: inherit; text-decoration: none; transition: color 0.2s; }
+    .contact-value a:hover { color: var(--gold); }
+    .ext-links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 30px; }
+    .ext-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 20px; font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      text-decoration: none; border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 2px; color: rgba(245,243,239,0.55); transition: all 0.25s;
+    }
+    .ext-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .ext-btn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.05); padding: 22px 48px; display: flex; justify-content: space-between; align-items: center; }
+    footer p { font-size: 0.72rem; color: rgba(245,243,239,0.22); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 14px 20px; }
+      .nav-links { gap: 14px; display: none; }
+      #hero {
+        padding: 90px 24px 50px;
+        background-image: linear-gradient(to bottom, rgba(250,248,244,0.9) 0%, rgba(250,248,244,0.8) 55%, rgba(250,248,244,0.9) 100%), url('hero.jpg');
+      }
+      section { padding: 60px 24px; }
+      .two-col { grid-template-columns: 1fr; gap: 40px; }
+      a.pub-item, div.pub-item { grid-template-columns: 52px 1fr; }
+      .pub-arrow { display: none; }
+      .skills-layout { grid-template-columns: 1fr; gap: 24px; }
+      .contact-grid { grid-template-columns: 1fr; gap: 36px; }
+      footer { flex-direction: column; gap: 6px; text-align: center; }
+      .hero-stats { flex-wrap: wrap; }
+      .stat { flex: 1 0 30%; }
+    }
+  </style>
+</head>
+<body class="lang-en">
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Xiaoxiao Zhou <small>周瀟霄</small></a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#research"><span class="en">Research</span><span class="ja">研究</span></a></li>
+      <li><a href="#publications"><span class="en">Publications</span><span class="ja">論文</span></a></li>
+      <li><a href="#experience"><span class="en">Experience</span><span class="ja">経歴</span></a></li>
+      <li><a href="#contact"><span class="en">Contact</span><span class="ja">連絡先</span></a></li>
+    </ul>
+    <button class="lang-btn" onclick="toggleLang()">
+      🌐 <span id="langLabel">日本語</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-text">
+    <h1 class="hero-name">
+      Xiaoxiao <em>Zhou</em><br>
+      <span class="kanji">周 瀟 霄 <br/> <small>しゅう しょうしょう</small></span>
+    </h1>
+    <p class="hero-desc">
+      <span class="en">Welcome to my academic website.<br/>
+I am Xiaoxiao Zhou, a Lecturer in the Department of Business Administration, Faculty of Business Administration, Mejiro University.<br/>
+
+My research field is business administration, especially innovation management and platform ecosystems. I am interested in how value is created, developed, and realized in digital platform ecosystems, with a particular focus on complementors and complementary goods.<br/>
+
+Using large-scale platform data and statistical methods, my research focuses on complementor behavior and value creation in digital platform ecosystems, examining how complementors contribute to the development and performance of complementary goods.</span>
+      <span class="ja">
+現在、目白大学 経営学部 経営学科に助教として所属しています。<br/>
+専門分野は経営学であり、特にイノベーション・マネジメントおよびプラットフォームエコシステムを中心に研究しています。デジタル・プラットフォームエコシステムにおいて、価値がどのように創造され、発展し、実現されるのかに関心を持っており、特に補完者および補完財に着目しています。<br/>
+大規模プラットフォームデータと統計的手法を用いて、デジタル・プラットフォームエコシステムにおける補完者行動と価値創造に焦点を当て、補完者が補完財の発展や成果にどのように貢献しているのかを研究しています。</span>
+    </p>
+    <div class="hero-links">
+      <a class="btn btn-primary" href="#publications">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span class="en">Publications</span><span class="ja">研究論文</span>
+      </a>
+      <a class="btn btn-outline" href="https://researchmap.jp/zhouxiaoxiao" target="_blank">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+        Researchmap
+      </a>
+      <a class="btn btn-outline" href="https://orcid.org/0000-0003-0756-838X" target="_blank">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9 9h.01M9 12h6M12 15v-6"/></svg>
+        ORCID
+      </a>
+      <a class="btn btn-outline" href="https://scholar.google.com/citations?user=BwLxJ5AAAAAJ&hl=ja" target="_blank">
+         <svg viewBox="0 0 24 24"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/></svg>
+        Google Scholar
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">6</div>
+        <div class="stat-label"><span class="en">SCI Papers</span><span class="ja">SCI論文</span></div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">13</div>
+        <div class="stat-label"><span class="en">Conf. Talks</span><span class="ja">学会発表</span></div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">1</div>
+        <div class="stat-label"><span class="en">JSPS Grant</span><span class="ja">JSPS科研費</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research">
+  <div class="section-header reveal">
+    <span class="section-num">01</span>
+    <h2 class="section-title"><span class="en">Research Focus</span><span class="ja">研究内容</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="research-grid reveal">
+    <div class="research-card">
+      <div class="research-phase"><span class="en">Research Theme I</span><span class="ja">研究テーマ I</span></div>
+      <h3><span class="en">Value Creation in Digital Platforms</span><span class="ja">デジタルプラットフォームにおける価値創造</span></h3>
+      <p>
+        <span class="en">This research stream examines how product attributes relate to consumer evaluation, price persistence, and willingness to pay in digital market environments, including online product markets and second-hand trading platforms.</span>
+        <span class="ja">オンライン市場や中古取引プラットフォームを対象に、製品属性が消費者評価、価格持続性、支払意思額との関連性を分析しています。</span>
+      </p>
+    </div>
+    <div class="research-card">
+      <div class="research-phase"><span class="en">Research Theme II</span><span class="ja">研究テーマ II</span></div>
+      <h3><span class="en">Social Interaction and Value Realization</span><span class="ja">ソーシャルインタラクションと価値実現</span></h3>
+      <p>
+        <span class="en">This research stream examines social interaction on digital platforms, focusing on how parasocial interactions between influencers and followers shape parasocial relationships and value realization in consumer behavior.</span>
+        <span class="ja">デジタルプラットフォーム上の社会的インタラクションに注目し、特にインフルエンサーとフォロワーの間の擬似社会的相互作用（PSI）が、擬似社会的関係（PSR）の形成や価値実現にどのように影響するのかを検討しています。</span>
+      </p>
+    </div>
+    <div class="research-card">
+      <div class="research-phase"><span class="en">Research Theme III · Current</span><span class="ja">研究テーマ III（現在）</span></div>
+      <h3><span class="en">Complementor Behavior in Platform Ecosystems</span><span class="ja">プラットフォームエコシステムにおける補完者行動</span></h3>
+      <p>
+        <span class="en">This research stream focuses on complementor behavior and value creation in platform ecosystems. In particular, I examine how complementors create, develop, and improve complementary goods, and how their actions contribute to platform ecosystem innovation.</span>
+        <span class="ja">プラットフォームエコシステムにおける補完者行動と価値創造に焦点を当てています。特に、補完者がどのように補完財を創出し、その行動がプラットフォームエコシステムのイノベーションにどのように貢献するのかを研究しています。</span>
+      </p>
+    </div>
+     <div class="research-card">
+      <div class="research-phase"><span class="en">Research Theme IV · Current</span><span class="ja">研究テーマ IV（現在）</span></div>
+      <h3><span class="en">Generativity and Governance in Innovation Ecosystems</span><span class="ja">イノベーションエコシステムにおける生成性とガバナンス</span></h3>
+      <p>
+        <span class="en">This research stream examines how innovation ecosystems sustain their capacity to generate new value and ideas. Building on my research on complementor behavior, I focus on interactions among complementors and between complementors and users, and explore how these interactions contribute to the generativity and sustainable development of innovation ecosystems.</span>
+        <span class="ja">イノベーションエコシステムが新しい価値やアイデアを継続的に生み出す能力に注目しています。これまでの補完者行動に関する研究を基盤として、補完者間、および補完者とユーザー間の相互作用に着目し、それらがイノベーションエコシステムの生成性や持続的発展にどのように関わるのかを検討しています。</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <div class="section-header reveal">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Publications</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="pub-list">
+    <a class="pub-item reveal" href="https://doi.org/10.3390/su17052279" target="_blank" rel="noopener">
+      <div class="pub-year">2025</div>
+      <div>
+        <div class="pub-title">Innovation in Platform Ecosystems: Roles of Complementors' Experiential Knowledge and Community Engagement as an External Knowledge Source</div>
+        <div class="pub-authors"><strong>Zhou, X.</strong>, Inoue, Y.</div>
+        <div class="pub-journal">Sustainability, 17, 2279</div>
+      </div>
+      <div class="pub-arrow">DOI →</div>
+    </a>
+
+    <a class="pub-item reveal" href="https://doi.org/10.1186/s43093-024-00403-8" target="_blank" rel="noopener">
+      <div class="pub-year">2024</div>
+      <div>
+        <div class="pub-title">Performance of Complementor's Complementary Goods on Platform Ecosystems: the Perspective of Individual Complementors' Complementary Goods Development Behavior</div>
+        <div class="pub-authors"><strong>Zhou, X.</strong>, Inoue, Y.</div>
+        <div class="pub-journal">Future Business Journal, 10, 114</div>
+      </div>
+      <div class="pub-arrow">DOI →</div>
+    </a>
+
+    <a class="pub-item reveal" href="https://doi.org/10.1016/j.heliyon.2024.e39708" target="_blank" rel="noopener">
+      <div class="pub-year">2024</div>
+      <div>
+        <div class="pub-title">Parasocial Interactions and Parasocial Relationships on Instagram: An In-depth Analysis of Fashion and Beauty Influencers</div>
+        <div class="pub-authors"><strong>Zhou, X.</strong>, Huang, Y., Inoue, Y.</div>
+        <div class="pub-journal">Heliyon, 10, e39708</div>
+      </div>
+      <div class="pub-arrow">DOI →</div>
+    </a>
+
+    <a class="pub-item reveal" href="https://doi.org/10.3390/su15107881" target="_blank" rel="noopener">
+      <div class="pub-year">2023</div>
+      <div>
+        <div class="pub-title">Sustainable Fashion Product Innovation: Continuous Value of Apparel Products on Second-Hand Product Trading Platforms</div>
+        <div class="pub-authors"><strong>Zhou, X.</strong>, Miyauchi, R., Inoue, Y.</div>
+        <div class="pub-journal">Sustainability, 15, 7881</div>
+      </div>
+      <div class="pub-arrow">DOI →</div>
+    </a>
+
+    <a class="pub-item reveal" href="https://doi.org/10.3390/textiles3010002" target="_blank" rel="noopener">
+      <div class="pub-year">2023</div>
+      <div>
+        <div class="pub-title">Design Elements That Increase the Willingness to Pay for Denim Fabric Products</div>
+        <div class="pub-authors">Miyauchi, R., <strong>Zhou, X.</strong>, Inoue, Y.</div>
+        <div class="pub-journal">Textiles, 3, 11–25</div>
+      </div>
+      <div class="pub-arrow">DOI →</div>
+    </a>
+
+    <a class="pub-item reveal" href="https://doi.org/10.1186/s10086-022-02054-1" target="_blank" rel="noopener">
+      <div class="pub-year">2022</div>
+      <div>
+        <div class="pub-title">Effect of Wood Attributes on the Price Persistence of Acoustic Guitars</div>
+        <div class="pub-authors"><strong>Zhou, X.</strong>, Miyauchi, R., Inoue, Y.</div>
+        <div class="pub-journal">Journal of Wood Science, 68, 49</div>
+      </div>
+      <div class="pub-arrow">DOI →</div>
+    </a>
+  </div>
+
+  <p class="wp-label reveal"><span class="en">Working Papers</span><span class="ja">ワーキングペーパー・投稿中</span></p>
+  <div class="pub-list">
+    <a class="pub-item reveal" href="https://ssrn.com" target="_blank" rel="noopener">
+      <div class="pub-year" style="color:var(--gold)">WP</div>
+      <div>
+        <div class="pub-title">Complementors' Dual-Level Knowledge and Its Role in Platform Ecosystem Innovation</div>
+        <div class="pub-authors"><strong>Zhou, X.</strong>, Kikawa, D., Inoue, Y.</div>
+        <div class="pub-journal">SSRN Working Paper (2025)</div>
+        <span class="pub-badge"><span class="en">Preprint</span><span class="ja">プレプリント</span></span>
+      </div>
+      <div class="pub-arrow">SSRN →</div>
+    </a>
+    <a class="pub-item reveal" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6476038" target="_blank" rel="noopener">
+  <div class="pub-year" style="color:var(--gold)">WP</div>
+  <div>
+    <div class="pub-title">How Social Endorsement Forms through Resonance on Digital Content Platforms: The Role of Category match and Creator Experience</div>
+    <div class="pub-authors"><strong>Zhou, X.</strong>, Inoue, Y.</div>
+    <div class="pub-journal">SSRN Working Paper (2026)</div>
+    <span class="pub-badge"><span class="en">Preprint</span><span class="ja">プレプリント</span></span>
+  </div>
+  <div class="pub-arrow">SSRN →</div>
+</a>
+  </div>
+
+  <p class="wp-label reveal"><span class="en">Conference Presentations — International Conference</span><span class="ja">学会発表 — 国際会議</span></p>
+  <div class="pub-list">
+    <div class="pub-item reveal">
+      <div class="pub-year">2025</div>
+      <div>
+        <div class="pub-title">Relationship between product evaluation and the inconsistency of category perception</div>
+        <div class="pub-trans"><span class="t-tag"><span class="en">JA translation</span><span class="ja">和訳</span></span>製品評価とカテゴリ知覚の不一致との関係</div>
+        <div class="pub-authors">Tada, K., <strong>Zhou, X.</strong>, Inoue, Y.</div>
+        <div class="pub-journal">ISPIM Connects Yokohama · 2025.12.03</div>
+      </div>
+    </div>
+    <div class="pub-item reveal">
+      <div class="pub-year">2024</div>
+      <div>
+        <div class="pub-title">Interaction between Complementors' Category Experience and Learning Ability within Ecosystems</div>
+        <div class="pub-trans"><span class="t-tag"><span class="en">JA translation</span><span class="ja">和訳</span></span>エコシステムにおける補完者のカテゴリ経験と学習能力の交互作用</div>
+        <div class="pub-authors"><strong>Zhou, X.</strong>, Inoue, Y.</div>
+        <div class="pub-journal">ISPIM Connects Osaka Conference · 2024.12.04</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="wp-label reveal"><span class="en">Conference Presentations — Domestic conference </span><span class="ja">学会発表 — 国内会議</span></p>
+  <div class="pub-list">
+    <div class="pub-item reveal">
+      <div class="pub-year">2026</div>
+      <div>
+        <div class="pub-title">オンライン旅行Vlogにおける言語的フレームと顧客ベースのデスティネーション・ブランド・エクイティ(CBDBE)：共鳴を誘発することを意図した要素</div>
+        <div class="pub-trans"><span class="t-tag"><span class="en">EN translation</span><span class="ja">英訳</span></span>Linguistic Framing in Online Travel Vlogs and Customer-Based Destination Brand Equity (CBDBE): Elements Intended to Evoke Resonance</div>
+        <div class="pub-authors">劉 氷清, <strong>周 瀟霄</strong>, 井上 祐樹</div>
+        <div class="pub-journal">経営情報学会2026年度年次大会（オンライン）· 2026.06.06</div>
+      </div>
+    </div>
+    <div class="pub-item reveal">
+      <div class="pub-year">2025</div>
+      <div>
+        <div class="pub-title">補完者のカテゴリ経験と製品カテゴリ価値提案との整合性と補完財のイノベーションとの関連性について</div>
+        <div class="pub-trans"><span class="t-tag"><span class="en">EN translation</span><span class="ja">英訳</span></span>The Relationship between the Alignment of Complementors' Category Experience with the Product Category Value Proposition and Complementary-Good Innovation</div>
+        <div class="pub-authors"><strong>周 瀟霄</strong>, 井上 祐樹</div>
+        <div class="pub-journal">2025年度組織学会研究発表大会 · 2025.06.22</div>
+      </div>
+    </div>
+    <div class="pub-item reveal">
+      <div class="pub-year">2025</div>
+      <div>
+        <div class="pub-title">プラットフォームエコシステムにおける補完者の技術経験と外部資源利用の交互作用効果に関する分析</div>
+        <div class="pub-trans"><span class="t-tag"><span class="en">EN translation</span><span class="ja">英訳</span></span>An Analysis of the Interaction Effect between Complementors' Technical Experience and External Resource Use in Platform Ecosystems</div>
+        <div class="pub-authors"><strong>周 瀟霄</strong>, 井上 祐樹</div>
+        <div class="pub-journal">第14回アントレプレナーシップ・コンファランス · 2025.03.09</div>
+      </div>
+    </div>
+    <div class="pub-item reveal">
+      <div class="pub-year">2025</div>
+      <div>
+        <div class="pub-title">一商品ブランド内のカテゴリにおける成功・失敗要因に関する研究</div>
+        <div class="pub-trans"><span class="t-tag"><span class="en">EN translation</span><span class="ja">英訳</span></span>A Study on the Success and Failure Factors of Categories within a Single Product Brand</div>
+        <div class="pub-authors">堀内 楓, 山口 晟生, <strong>周 瀟霄</strong>, 井上 祐樹</div>
+        <div class="pub-journal">第16回日本MOT学会年次研究発表会 · 2025.03.02</div>
+      </div>
+    </div>
+    <div class="pub-item reveal">
+      <div class="pub-year">2025</div>
+      <div>
+        <div class="pub-title">製品ネットワーク上での共同開発商品の立ち位置について</div>
+        <div class="pub-trans"><span class="t-tag"><span class="en">EN translation</span><span class="ja">英訳</span></span>On the Positioning of Co-Developed Products within a Product Network</div>
+        <div class="pub-authors">小林 楓, <strong>周 瀟霄</strong>, 井上 祐樹</div>
+        <div class="pub-journal">第16回日本MOT学会年次研究発表会 · 2025.03.02</div>
+      </div>
+    </div>
+    <div class="pub-item reveal">
+      <div class="pub-year">2024</div>
+      <div>
+        <div class="pub-title">プラットフォームエコシステムにおける製品カテゴリ価値提案との整合性が補完財のパフォーマンスに及ぼす影響</div>
+        <div class="pub-trans"><span class="t-tag"><span class="en">EN translation</span><span class="ja">英訳</span></span>The Effect of Alignment with the Product Category Value Proposition on Complementary-Good Performance in Platform Ecosystems</div>
+        <div class="pub-authors"><strong>周 瀟霄</strong>, 井上 祐樹</div>
+        <div class="pub-journal">2024年度組織学会研究発表大会 · 2024.06.22</div>
+      </div>
+    </div>
+    <div class="pub-item reveal">
+      <div class="pub-year">2024</div>
+      <div>
+        <div class="pub-title">クラウドソーシングプラットフォームにおける受注者の実績表現方法の分析</div>
+        <div class="pub-trans"><span class="t-tag"><span class="en">EN translation</span><span class="ja">英訳</span></span>An Analysis of How Contractors Present Their Track Records on Crowdsourcing Platforms</div>
+        <div class="pub-authors">奈良岡 詩音, <strong>周 瀟霄</strong>, 井上 祐樹</div>
+        <div class="pub-journal">第15回日本MOT学会年次研究発表会 · 2024.03.09</div>
+      </div>
+    </div>
+    <div class="pub-item reveal">
+      <div class="pub-year">2024</div>
+      <div>
+        <div class="pub-title">ゲームMODプラットフォームエコシステムにおける補完者と補完財の特性が補完財のパフォーマンスに及ぼす影響</div>
+        <div class="pub-trans"><span class="t-tag"><span class="en">EN translation</span><span class="ja">英訳</span></span>The Effect of Complementor and Complementary-Good Characteristics on Complementary-Good Performance in Game MOD Platform Ecosystems</div>
+        <div class="pub-authors"><strong>周 瀟霄</strong>, 井上 祐樹, 辻本 将晴</div>
+        <div class="pub-journal">第15回日本MOT学会年次研究発表会 · 2024.03.09</div>
+      </div>
+    </div>
+    <div class="pub-item reveal">
+      <div class="pub-year">2023</div>
+      <div>
+        <div class="pub-title">プラットフォームエコシステムにおける補完者の知識獲得の度合いが補完財のパフォーマンス向上に与える影響について</div>
+        <div class="pub-trans"><span class="t-tag"><span class="en">EN translation</span><span class="ja">英訳</span></span>On the Effect of the Degree of Complementors' Knowledge Acquisition on the Performance Improvement of Complementary Goods in Platform Ecosystems</div>
+        <div class="pub-authors"><strong>周 瀟霄</strong>, 井上 祐樹, 辻本 将晴</div>
+        <div class="pub-journal">経営情報学会2023年全国研究発表大会 · 2023.11.11</div>
+      </div>
+    </div>
+    <div class="pub-item reveal">
+      <div class="pub-year">2023</div>
+      <div>
+        <div class="pub-title">Instagram上のE口コミが消費者の購買行動に及ぼす影響：インフルエンサーに着目して</div>
+        <div class="pub-trans"><span class="t-tag"><span class="en">EN translation</span><span class="ja">英訳</span></span>The Effect of Instagram eWOM on Consumer Purchasing Behavior: Focusing on Influencers</div>
+        <div class="pub-authors">黄 懿, <strong>周 瀟霄</strong>, 井上 祐樹</div>
+        <div class="pub-journal">2022年度日本MOT学会年次研究発表会 · 2023.03.11</div>
+      </div>
+    </div>
+    <div class="pub-item reveal">
+      <div class="pub-year">2022</div>
+      <div>
+        <div class="pub-title">フリー音楽に関するイノベーションの研究</div>
+        <div class="pub-trans"><span class="t-tag"><span class="en">EN translation</span><span class="ja">英訳</span></span>A Study on Innovation in Free Music</div>
+        <div class="pub-authors"><strong>周 瀟霄</strong>, 宮内 涼雅, 井上 祐樹</div>
+        <div class="pub-journal">第14回日本MOT学会年次研究発表会（オンライン開催）· 2022.03.19</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE & EDUCATION -->
+<section id="experience">
+  <div class="section-header reveal">
+    <span class="section-num">03</span>
+    <h2 class="section-title"><span class="en">Experience &amp; Education</span><span class="ja">職歴・学歴</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="two-col">
+    <div class="reveal">
+      <p class="col-label"><span class="en">Academic Positions</span><span class="ja">職歴</span></p>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-date">2026.04 –</div>
+          <div class="tl-content">
+            <h3><span class="en">Lecturer</span><span class="ja">講師</span></h3>
+            <p><span class="en">Mejiro University, Dept. of Business Administration</span><span class="ja">目白大学 経営学部経営学科</span></p>
+            <span class="tl-tag"><span class="en">Current</span><span class="ja">現職</span></span>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">2024.04 –<br>2026.03</div>
+          <div class="tl-content">
+            <h3><span class="en">Assistant Professor</span><span class="ja">助教</span></h3>
+            <p><span class="en">Mejiro University, Dept. of Business Administration</span><span class="ja">目白大学 経営学部経営学科</span></p>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    <div class="reveal">
+      <p class="col-label"><span class="en">Education</span><span class="ja">学歴</span></p>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-date">2026.03</div>
+          <div class="tl-content">
+            <h3><span class="en">Ph.D. in Technology Management</span><span class="ja">博士（技術経営）</span></h3>
+            <p><span class="en">Institute of Science Tokyo (formerly Tokyo Institute of Technology)</span><span class="ja">東京科学大学（旧・東京工業大学）</span></p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">2023.03</div>
+          <div class="tl-content">
+            <h3><span class="en">M.A. in Management</span><span class="ja">修士（マネジメント）</span></h3>
+            <p><span class="en">Hiroshima University, Graduate School of Humanities and Social Sciences</span><span class="ja">広島大学 人間社会科学研究科</span></p>
+            <span class="tl-tag"><span class="en">Outstanding Student Award 2022</span><span class="ja">成績優秀学生 2022</span></span>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">2021.03</div>
+          <div class="tl-content">
+            <h3><span class="en">B.A. in Management — Double Degree</span><span class="ja">学士（経営学・文学）ダブルディグリー</span></h3>
+            <p><span class="en">Hokuriku University, Faculty of Economics and Management</span><span class="ja">北陸大学 経済経営学部</span></p>
+            <p class="courses"><span class="en">Transferred from 2-year Japanese Language program in China · Bachelor of Arts (Japanese) &amp; Bachelor of Management</span><span class="ja">中国の大学で2年間日本語を学んだ後、北陸大学に3年次編入・文学学士（日本語）と経営学士を取得</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AWARDS -->
+<section id="awards">
+  <div class="section-header reveal">
+    <span class="section-num">04</span>
+    <h2 class="section-title"><span class="en">Awards &amp; Grants</span><span class="ja">受賞・研究助成</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="awards-grid reveal">
+    <a class="award-link" href="https://kaken.nii.ac.jp/ja/grant/KAKENHI-PROJECT-26K16436" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block">
+      <div class="award-card">
+        <div class="award-year">2026 – 2029</div>
+        <div class="award-title"><span class="en">JSPS Grant-in-Aid for Early-Career Scientists</span><span class="ja">科学研究費助成事業（若手研究）</span></div>
+        <div class="award-org"><span class="en">Japan Society for the Promotion of Science · Principal Investigator</span><span class="ja">日本学術振興会（JSPS）· 研究代表者</span></div>
+      </div>
+    </a>
+    <a class="award-link" href="http://www.js-mot.org/events/research-presentation/pre2023/report15-240327/" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block">
+      <div class="award-card">
+        <div class="award-year">2024</div>
+        <div class="award-title"><span class="en">Best Student Paper Award — Gold</span><span class="ja">スチューデントアワード 金賞</span></div>
+        <div class="award-org"><span class="en">Japan MOT Society · Student Division</span><span class="ja">日本 MOT 学会</span></div>
+      </div>
+    </a>
+    <a class="award-link" href="https://www.hiroshima-u.ac.jp/mgt/news/74671" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block">
+      <div class="award-card">
+        <div class="award-year">2022</div>
+        <div class="award-title"><span class="en">Outstanding Student Award</span><span class="ja">エクセレント・スチューデント</span></div>
+        <div class="award-org"><span class="en">Hiroshima University</span><span class="ja">広島大学</span></div>
+      </div>
+    </a>
+  </div>
+</section>
+
+
+<!-- ZEMI MEMBERS -->
+<section id="zemi">
+  <div class="section-header reveal">
+    <span class="section-num">05</span>
+    <h2 class="section-title"><span class="en">Zemi Members</span><span class="ja">ゼミ生</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="reveal" style="text-align:center; padding: 60px 0;">
+    <p style="font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:300; color:var(--stone); letter-spacing:0.06em;">Coming Soon</p>
+    <p style="font-size:0.82rem; color:var(--stone); margin-top:14px; letter-spacing:0.05em;">ゼミ生のページは近日公開予定です。</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header reveal">
+    <span class="section-num">06</span>
+    <h2 class="section-title"><span class="en">Contact</span><span class="ja">連絡先</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-intro reveal">
+      <span class="en">Open to research collaboration, academic inquiries, and speaking invitations.</span>
+      <span class="ja">共同研究・学術的なお問い合わせ・講演依頼など、お気軽にご連絡ください。</span>
+    </div>
+    <div class="reveal">
+      <div class="contact-details">
+        <div class="contact-row">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+          </div>
+          <div>
+            <div class="contact-label"><span class="en">Email</span><span class="ja">メール</span></div>
+            <div class="contact-value" style="display:flex;flex-direction:column;gap:5px;margin-top:4px;">
+              <!-- Emails rendered via canvas to prevent crawler scraping -->
+              <canvas id="email1Canvas" height="18" style="display:block;opacity:0.72;max-width:100%;"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div>
+            <div class="contact-label"><span class="en">Affiliation</span><span class="ja">所属</span></div>
+            <div class="contact-value">
+              <span class="en">Mejiro University, Tokyo, Japan</span>
+              <span class="ja">目白大学 経営学部経営学科（東京都）</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ext-links">
+        <a class="ext-btn" href="https://researchmap.jp/zhouxiaoxiao" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+          Researchmap
+        </a>
+        <a class="ext-btn" href="https://orcid.org/0000-0003-0756-838X" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9 9h.01M9 12h6M12 15v-3"/></svg>
+          ORCID
+        </a>
+         <a class="ext-btn" href="https://scholar.google.com/citations?user=BwLxJ5AAAAAJ&hl=ja" target="_blank" rel="noopener">
+         <svg viewBox="0 0 24 24"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/></svg>
+        Google Scholar
+      </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Xiaoxiao Zhou 周瀟霄</p>
+  <p><span class="en">Lecturer · Mejiro University, Tokyo</span><span class="ja">講師 · 目白大学</span></p>
+</footer>
+
+<script>
+  function toggleLang() {
+    const body = document.body;
+    const label = document.getElementById('langLabel');
+    if (body.classList.contains('lang-en')) {
+      body.classList.replace('lang-en', 'lang-ja');
+      label.textContent = 'English';
+      document.documentElement.lang = 'ja';
+    } else {
+      body.classList.replace('lang-ja', 'lang-en');
+      label.textContent = '日本語';
+      document.documentElement.lang = 'en';
+    }
+  }
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        e.target.style.transitionDelay = (i * 0.07) + 's';
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── EMAIL CANVAS RENDERING (anti-crawler) ──
+  function drawEmail(canvasId, email) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const font = '13px "DM Sans", sans-serif';
+    ctx.font = font;
+    const w = ctx.measureText(email).width + 4;
+    canvas.width = Math.ceil(w);
+    ctx.font = font;
+    ctx.fillStyle = 'rgba(245,243,239,0.85)';
+    ctx.fillText(email, 0, 13);
+  }
+  drawEmail('email1Canvas', 's.shu@mejiro.ac.jp');
+
+
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--gold)' : '';
+    });
+  });
+</script>
+</body>
+</html>
